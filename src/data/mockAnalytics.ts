@@ -1,0 +1,40 @@
+import { AnalyticsData } from '@/store/analyticsSlice';
+
+export const mockAnalytics: AnalyticsData = {
+  totalCommits: 830,
+  totalRepos: 48,
+  totalStars: 136,
+  totalPRs: 92,
+  commitTrend: [
+    { date: '2025-10-15', commits: 24 },
+    { date: '2025-10-16', commits: 32 },
+    { date: '2025-10-17', commits: 41 },
+    { date: '2025-10-18', commits: 28 },
+    { date: '2025-10-19', commits: 52 },
+    { date: '2025-10-20', commits: 35 },
+    { date: '2025-10-21', commits: 45 },
+    { date: '2025-10-22', commits: 38 },
+    { date: '2025-10-23', commits: 29 },
+    { date: '2025-10-24', commits: 47 },
+    { date: '2025-10-25', commits: 54 },
+    { date: '2025-10-26', commits: 42 },
+    { date: '2025-10-27', commits: 36 },
+    { date: '2025-10-28', commits: 49 },
+  ],
+  languageDistribution: [
+    { name: 'TypeScript', value: 45 },
+    { name: 'JavaScript', value: 25 },
+    { name: 'Python', value: 15 },
+    { name: 'Go', value: 10 },
+    { name: 'Others', value: 5 },
+  ],
+  weeklyActivity: [
+    { day: 'Mon', commits: 34, prs: 5 },
+    { day: 'Tue', commits: 42, prs: 8 },
+    { day: 'Wed', commits: 38, prs: 6 },
+    { day: 'Thu', commits: 51, prs: 11 },
+    { day: 'Fri', commits: 45, prs: 9 },
+    { day: 'Sat', commits: 12, prs: 2 },
+    { day: 'Sun', commits: 8, prs: 1 },
+  ],
+};
