@@ -13,6 +13,13 @@ import { cn } from "@/lib/utils";
 
 const Layout: any = ManagerLayout;
 
+/**
+ * Render the Team Analytics dashboard with header, stat cards, and charts.
+ *
+ * Loads analytics data on mount (currently from a mock data module) and displays a centered loading state until data is available.
+ *
+ * @returns The dashboard React element showing aggregate stats and visualizations for team activity.
+ */
 export default function Analytics() {
   const dispatch = useDispatch();
   const { data: analytics, loading } = useSelector((state: RootState) => state.analytics);
