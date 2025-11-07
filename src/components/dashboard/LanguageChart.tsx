@@ -2,13 +2,21 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Pie, PieChart, Cell, ResponsiveContainer } from "recharts";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
-interface LanguageChartProps {
-  languages: string[];
-  title?: string;
-  description?: string;
+interface LanguageDataPoint {
+  name: string;
+  value: number;
 }
 
+interface LanguageChartProps {
+  languages: LanguageDataPoint[];
+  title?: string;
+  description?: string;
+  className?: string;
+}
+
+// Futuristic color palette
 const COLORS = [
   "hsl(263 70% 50.4%)",
   "hsl(280 70% 50%)",
@@ -17,50 +25,68 @@ const COLORS = [
   "hsl(260 65% 52%)",
 ];
 
-const chartConfig = {
-  languages: {
-    label: "Languages",
-  },
-};
-
-export const LanguageChart = ({ 
-  languages, 
-  title = "Top Languages", 
-  description = "Most used programming languages" 
+export const LanguageChart = ({
+  languages,
+  title = "Top Languages",
+  description = "Most used programming languages",
+  className,
 }: LanguageChartProps) => {
-  const data = languages.map((lang, index) => ({
-    name: lang,
-    value: languages.length - index, // Mock values based on order
+  // Ensure valid numeric data
+  const chartData = languages.map((lang, index) => ({
+    name: lang.name,
+    value: Number(lang.value) || 0,
+    color: COLORS[index % COLORS.length],
   }));
 
   return (
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.4 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className={cn("w-full", className)}
     >
-      <Card className="border-border/50 bg-card/50 backdrop-blur shadow-card">
+      <Card className="border-border/50 bg-card/60 backdrop-blur-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-lg font-semibold text-foreground">{title}</CardTitle>
+              <CardDescription className="text-muted-foreground">{description}</CardDescription>
+            </div>
+            <div className="w-3 h-3 rounded-full bg-purple-500/70 shadow-[0_0_8px_hsl(263_70%_50%)]" />
+          </div>
         </CardHeader>
+
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-[300px] w-full">
+          <ChartContainer
+            config={{
+              languages: { label: "Languages" },
+            }}
+            className="h-[300px] w-full"
+          >
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Pie
-                  data={data}
+                  data={chartData}
                   cx="50%"
                   cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${((percent as number) * 100).toFixed(0)}%`}
-                  outerRadius={100}
-                  fill="hsl(var(--primary))"
                   dataKey="value"
+                  innerRadius={60}
+                  outerRadius={100}
+                  paddingAngle={4}
+                  stroke="hsl(var(--background))"
+                  strokeWidth={2}
+                  labelLine={false}
+                  label={({ name, percent }) =>
+                    `${name} ${(Number(percent ?? 0) * 100).toFixed(0)}%`
+                  }
                 >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  {chartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      className="transition-transform duration-300 hover:scale-105"
+                    />
                   ))}
                 </Pie>
               </PieChart>
