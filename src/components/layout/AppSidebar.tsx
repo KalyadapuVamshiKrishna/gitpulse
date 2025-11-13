@@ -33,6 +33,12 @@ interface AppSidebarProps {
     collapsed: boolean;
 }
 
+/**
+ * Render the application's vertical sidebar with role-based navigation and collapse animations.
+ *
+ * @param collapsed - Whether the sidebar is collapsed; when true link labels are hidden and icons are centered.
+ * @returns The sidebar element containing role-specific navigation links, an animated collapse/sweep for link labels, and an active-route indicator.
+ */
 export function AppSidebar({ collapsed }: AppSidebarProps) {
     const { userRole } = useAuth();
     const location = useLocation();
